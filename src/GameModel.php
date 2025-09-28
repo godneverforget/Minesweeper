@@ -53,7 +53,11 @@ class GameModel
                     $nr = $row + $dr;
                     $nc = $col + $dc;
 
-                    if ($nr >= 0 && $nr < $this->size && $nc >= 0 && $nc < $this->size && $this->mineField[$nr][$nc] !== -1) {
+                    if (
+                        $nr >= 0 && $nr < $this->size &&
+                        $nc >= 0 && $nc < $this->size &&
+                        $this->mineField[$nr][$nc] !== -1
+                    ) {
                         $this->mineField[$nr][$nc]++;
                     }
                 }
@@ -82,6 +86,7 @@ class GameModel
             $this->revealAllMines();
             return ['game_over' => true, 'win' => false, 'adjacent_mines' => 0];
         }
+
 
         $this->revealCell($row, $col);
 
@@ -179,7 +184,9 @@ class GameModel
                 if ($this->mineField[$row][$col] === -1) {
                     $field[$row][$col] = 'X';
                 } else {
-                    $field[$row][$col] = $this->mineField[$row][$col] === 0 ? '0' : (string)$this->mineField[$row][$col];
+                    $field[$row][$col] = $this->mineField[$row][$col] === 0
+                        ? '0'
+                        : (string) $this->mineField[$row][$col];
                 }
             }
         }
@@ -195,5 +202,39 @@ class GameModel
     private function isValidCoordinate(int $row, int $col): bool
     {
         return $row >= 0 && $row < $this->size && $col >= 0 && $col < $this->size;
+    }
+
+    public function getMineField(): array
+    {
+        return $this->mineField;
+    }
+
+    public function getPlayerName(): string
+    {
+        return $this->playerName;
+    }
+
+    public function getSize(): int
+    {
+        return $this->size;
+    }
+
+    public function getMines(): int
+    {
+        return $this->mines;
+    }
+    public function setMineField(array $mineField): void
+    {
+        $this->mineField = $mineField;
+    }
+
+    public function setVisibleField(array $visibleField): void
+    {
+        $this->visibleField = $visibleField;
+    }
+
+    public function setGameStarted(bool $started): void
+    {
+        $this->gameStarted = $started;
     }
 }
